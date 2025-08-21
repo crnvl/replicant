@@ -25,3 +25,14 @@ pub async fn add_user(
 
     Ok(())
 }
+
+pub async fn user_exists(username: &str, pool: &Pool<Postgres>) -> Result<bool, sqlx::Error> {
+    let result = sqlx::query!(
+        "SELECT 1 as exists FROM users WHERE username = $1",
+        username
+    )
+    .fetch_optional(pool)
+    .await?;
+
+    Ok(result.is_some())
+}
