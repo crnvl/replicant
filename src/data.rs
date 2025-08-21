@@ -1,7 +1,7 @@
 pub struct User {
     pub username: String,
     pub public_key: String,
-    pub avatar: String,
+    pub avatar: Option<String>,
 }
 
 pub struct UserCredentials {
