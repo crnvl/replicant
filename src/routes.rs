@@ -1,5 +1,5 @@
 use actix_web::{
-    HttpResponse, Responder, post,
+    Responder, post,
     web::{self, Json},
 };
 use sqlx::{Pool, Postgres};
