@@ -37,3 +37,31 @@ This will return a response as follows:
 The resulting auth_token will be the primary way of authenticating with a node and should be stored securely. If an auth_token is lost, there is no way to recover messages or even the account itself.
 
 > While Ed25519 keys are the recommended way of encrypting and decrypting messages, clients are free to choose any other encryption method. This option is mainly left open to isolated instances as encryption differently to other clients will lead to compatibility issues.
+
+
+## Communicating
+
+Exchanging information between clients is done through messages. Replicant messages can both be chat messages or events. A guide for the structure of exchanged data can be found in the client specification, which defines the recommended way of communication in the main network of replicant.
+
+To authenticate and dispatch a message, use your auth token in the `Authorization` header.
+
+`POST /send`
+
+```json
+{
+  "to": "recipient_username",
+  "content": "encrypted_message_content"
+}
+```
+
+The message content should be encrypted using AES-GCM.
+
+---
+
+This will return a response as follows:
+
+```json
+{
+  "message": "Failure or success message"
+}
+```
