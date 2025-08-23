@@ -1,6 +1,6 @@
 use sqlx::{Pool, Postgres};
 
-use crate::data::{User, UserCredentials};
+use crate::data::{Message, User, UserCredentials};
 
 pub async fn add_user(
     user_credentials: UserCredentials,
@@ -35,4 +35,34 @@ pub async fn user_exists(username: &str, pool: &Pool<Postgres>) -> Result<bool, 
     .await?;
 
     Ok(result.is_some())
+}
+
+pub async fn get_username_by_auth_token(
+    auth_token: &str,
+    pool: &Pool<Postgres>,
+) -> Result<String, sqlx::Error> {
+    let result = sqlx::query!(
+        "SELECT username FROM user_credentials WHERE auth_token = $1",
+        auth_token
+    )
+    .fetch_optional(pool)
+    .await?;
+
+    match result {
+        Some(record) => Ok(record.username),
+        None => Err(sqlx::Error::RowNotFound),
+    }
+}
+
+pub async fn store_message(message: Message, pool: &Pool<Postgres>) -> Result<(), sqlx::Error> {
+    sqlx::query!(
+        "INSERT INTO messages (from_user, to_user, message_data) VALUES ($1, $2, $3)",
+        message.from,
+        message.to,
+        message.message_data
+    )
+    .execute(pool)
+    .await?;
+
+    Ok(())
 }

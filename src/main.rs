@@ -4,7 +4,7 @@ use actix_web::{App, HttpServer, web::Data};
 use dotenvy::dotenv;
 use sqlx::{Pool, Postgres};
 
-use crate::routes::register_user;
+use crate::routes::{register_user, send};
 
 mod crypto;
 mod data;
@@ -28,8 +28,13 @@ async fn main() -> std::io::Result<()> {
 
     let db_data = Data::new(pool.clone());
 
-    HttpServer::new(move || App::new().app_data(db_data.clone()).service(register_user))
-        .bind(("0.0.0.0", 8080))?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .app_data(db_data.clone())
+            .service(register_user)
+            .service(send)
+    })
+    .bind(("0.0.0.0", 8080))?
+    .run()
+    .await
 }
