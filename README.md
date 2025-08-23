@@ -36,7 +36,7 @@ This will return a response as follows:
 
 The resulting auth_token will be the primary way of authenticating with a node and should be stored securely. If an auth_token is lost, there is no way to recover messages or even the account itself.
 
-> While Ed25519 keys are the recommended way of encrypting and decrypting messages, clients are free to choose any other encryption method. This option is mainly left open to isolated instances as encryption differently to other clients will lead to compatibility issues.
+> While Ed25519 keys are the recommended way of encrypting and decrypting messages, clients are free to choose any other encryption method. This option is mainly left open to isolated instances as encrypting differently to other clients will lead to compatibility issues.
 
 
 ## Communicating
