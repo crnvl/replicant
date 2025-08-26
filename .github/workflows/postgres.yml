@@ -5,7 +5,7 @@ on:
     paths:
       - "db/**"
       - "init/**"
-      - ".github/workflows/docker-postgres.yml"
+      - ".github/workflows/postgres.yml"
 
 jobs:
   build:
