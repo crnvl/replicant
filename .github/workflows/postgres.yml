@@ -1,0 +1,35 @@
+name: Build and Push Postgres Image
+
+on:
+  push:
+    paths:
+      - "db/**"
+      - "init/**"
+      - ".github/workflows/docker-postgres.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Postgres image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./db
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/replicant-postgres:latest
+            ghcr.io/${{ github.repository_owner }}/replicant-postgres:${{ github.sha }}

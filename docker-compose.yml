@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:latest
+    image: ghcr.io/crnvl/replicant-postgres:latest
     environment:
       POSTGRES_USER: node
       POSTGRES_PASSWORD: YOURPASSWORD
@@ -9,7 +9,6 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./init:/docker-entrypoint-initdb.d
 
   replicant:
     image: ghcr.io/crnvl/replicant:latest
