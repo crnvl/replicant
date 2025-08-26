@@ -28,8 +28,8 @@ jobs:
       - name: Build and push Postgres image
         uses: docker/build-push-action@v6
         with:
-          context: ./db
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/replicant-postgres:latest
-            ghcr.io/${{ github.repository_owner }}/replicant-postgres:${{ github.sha }}
+            context: .
+            file: db/Dockerfile
+            push: true
+            tags: |
+                ghcr.io/${{ github.repository_owner }}/replicant-postgres:latest
